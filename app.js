@@ -1,270 +1,174 @@
 /**
- * ========================================================
- * Amor e Respostas - Lógica Principal (Vanilla JS)
- * ========================================================
+ * Amor e Respostas - Lógica principal (Vanilla JS)
  */
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Estado da aplicação
-  let currentQuestionIndex = 0;
-  let score = 0;
-  let userAnswers = []; // histórico com { question, selected, correct, isCorrect }
   const questions = window.quizQuestions || [];
-
-  // Elementos do DOM
-  const quizHeader = document.getElementById("quiz-header");
-  const progressText = document.getElementById("progress-text");
-  const progressBar = document.getElementById("progress-bar");
-  const scoreCounter = document.getElementById("score-counter");
-
-  // Telas
-  const screenHero = document.getElementById("screen-hero");
-  const screenQuiz = document.getElementById("screen-quiz");
-  const screenResult = document.getElementById("screen-result");
-
-  // Elementos da Pergunta
-  const questionTitle = document.getElementById("question-title");
-  const optionsContainer = document.getElementById("options-container");
-  const feedbackBox = document.getElementById("feedback-box");
-  const feedbackIcon = document.getElementById("feedback-icon");
-  const feedbackHeadline = document.getElementById("feedback-headline");
-  const feedbackComment = document.getElementById("feedback-comment");
-  const btnNext = document.getElementById("btn-next");
-
-  // Botões de fluxo
-  const btnStart = document.getElementById("btn-start");
-  const btnRestart = document.getElementById("btn-restart");
-  const btnToggleSummary = document.getElementById("btn-toggle-summary");
-  const summaryContainer = document.getElementById("summary-container");
-
-  // Elementos de Resultado
-  const finalScore = document.getElementById("final-score");
-  const resultHeadline = document.getElementById("result-headline");
-  const resultMessage = document.getElementById("result-message");
-
+  const prize = window.prizeData || { title: "Surpresa!", message: "", footer: "" };
   const letters = ["A", "B", "C", "D"];
+  const COLORS = ["#FF8DA1", "#E84A72", "#141413", "#F4F1EA"];
 
-  /**
-   * Navegação entre telas
-   */
-  function showScreen(screen) {
-    [screenHero, screenQuiz, screenResult].forEach(s => {
-      s.classList.remove("active");
-    });
-    screen.classList.add("active");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  let current = 0;
+  let score = 0;
+  let answers = [];
 
-  /**
-   * Inicia o Quiz
-   */
-  function startQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    userAnswers = [];
-    quizHeader.style.display = "block";
-    renderQuestion();
-    showScreen(screenQuiz);
-  }
+  const $ = (id) => document.getElementById(id);
+  const screens = [$("screen-hero"), $("screen-quiz"), $("screen-result")];
 
-  /**
-   * Renderiza a pergunta atual
-   */
-  function renderQuestion() {
-    const q = questions[currentQuestionIndex];
-    if (!q) {
-      finishQuiz();
-      return;
+  function pad(n) { return String(n).padStart(2, "0"); }
+
+  // Transição com fade-out / fade-in
+  function showScreen(target) {
+    const active = screens.find((s) => s.classList.contains("active"));
+    const swap = () => {
+      screens.forEach((s) => s.classList.remove("active", "visible"));
+      target.classList.add("active");
+      window.scrollTo({ top: 0 });
+      requestAnimationFrame(() => requestAnimationFrame(() => target.classList.add("visible")));
+    };
+    if (active && active !== target) {
+      active.classList.remove("visible");
+      setTimeout(swap, 400);
+    } else {
+      swap();
     }
+  }
 
-    // Atualiza barra de progresso e texto
+  // Hero visível ao carregar
+  $("screen-hero").classList.add("visible");
+
+  function startQuiz() {
+    current = 0; score = 0; answers = [];
+    renderQuestion();
+    showScreen($("screen-quiz"));
+  }
+
+  function renderQuestion() {
+    const q = questions[current];
     const total = questions.length;
-    const currentNum = currentQuestionIndex + 1;
-    const progressPercent = ((currentNum - 1) / total) * 100;
-    
-    progressText.textContent = `Pergunta ${String(currentNum).padStart(2, "0")} de ${String(total).padStart(2, "0")}`;
-    progressBar.style.width = `${progressPercent}%`;
-    progressBar.setAttribute("aria-valuenow", Math.round(progressPercent));
-    scoreCounter.textContent = `Acertos: ${score}`;
+    $("progress-text").textContent = `PERGUNTA ${pad(current + 1)} / ${pad(total)}`;
+    $("score-counter").textContent = `ACERTOS: ${score}`;
+    $("progress-bar").style.width = `${(current / total) * 100}%`;
+    $("question-title").textContent = q.question;
+    $("feedback-box").className = "feedback-box";
+    $("btn-next").hidden = true;
 
-    // Reseta estado do card
-    questionTitle.textContent = q.question;
-    optionsContainer.innerHTML = "";
-    feedbackBox.className = "feedback-box";
-    feedbackBox.classList.remove("show", "correct", "wrong");
-    btnNext.style.display = "none";
-
-    // Cria as 4 opções
-    q.options.forEach((optText, index) => {
+    const list = $("options-container");
+    list.innerHTML = "";
+    q.options.forEach((text, i) => {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "option-btn";
-      btn.innerHTML = `
-        <span class="option-letter">${letters[index] || index + 1}</span>
-        <span class="option-text">${optText}</span>
-      `;
-      btn.addEventListener("click", () => handleSelectOption(index));
-      optionsContainer.appendChild(btn);
+      const letter = document.createElement("span");
+      letter.className = "option-letter";
+      letter.textContent = letters[i];
+      const label = document.createElement("span");
+      label.textContent = text;
+      btn.append(letter, label);
+      btn.addEventListener("click", () => selectOption(i));
+      list.appendChild(btn);
     });
   }
 
-  /**
-   * Processa a seleção do usuário
-   */
-  function handleSelectOption(selectedIndex) {
-    const q = questions[currentQuestionIndex];
-    const isCorrect = selectedIndex === q.correctAnswer;
+  function selectOption(i) {
+    const q = questions[current];
+    const ok = i === q.correctAnswer;
+    if (ok) score++;
+    answers.push({ q: q.question, picked: q.options[i], right: q.options[q.correctAnswer], ok });
 
-    if (isCorrect) {
-      score++;
-    }
-
-    // Salva para o histórico
-    userAnswers.push({
-      questionText: q.question,
-      selectedText: q.options[selectedIndex],
-      correctText: q.options[q.correctAnswer],
-      isCorrect: isCorrect
+    $("options-container").querySelectorAll(".option-btn").forEach((b, idx) => {
+      b.disabled = true;
+      if (idx === q.correctAnswer) b.classList.add("correct");
+      else if (idx === i) b.classList.add("wrong");
+      else b.classList.add("faded");
     });
 
-    // Desabilita botões e aplica classes visuais
-    const optionButtons = optionsContainer.querySelectorAll(".option-btn");
-    optionButtons.forEach((btn, idx) => {
-      btn.disabled = true;
-      if (idx === q.correctAnswer) {
-        btn.classList.add("correct");
-      } else if (idx === selectedIndex && !isCorrect) {
-        btn.classList.add("wrong");
-      } else {
-        btn.classList.add("faded");
+    const fb = $("feedback-box");
+    fb.classList.add("show", ok ? "correct" : "wrong");
+    $("feedback-icon").textContent = ok ? "🎉" : "😅";
+    $("feedback-headline").textContent = ok ? "Acertou em cheio!" : `Era: ${q.options[q.correctAnswer]}`;
+    $("feedback-comment").textContent = q.comment || "";
+
+    $("score-counter").textContent = `ACERTOS: ${score}`;
+    $("progress-bar").style.width = `${((current + 1) / questions.length) * 100}%`;
+    const next = $("btn-next");
+    next.textContent = current === questions.length - 1 ? "Ver resultado →" : "Próxima pergunta →";
+    next.hidden = false;
+    next.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function finish() {
+    const total = questions.length;
+    const pct = total ? Math.round((score / total) * 100) : 0;
+    $("final-score").textContent = `${score}/${total}`;
+
+    let headline, msg;
+    if (pct >= 81) {
+      headline = "Conexão de alma gêmea ❤️";
+      msg = `${pct}% de acerto! Você me conhece de olhos fechados. Sou o cara mais sortudo do mundo por ter você.`;
+    } else if (pct >= 41) {
+      headline = "Muito bem, meu amor 🥰";
+      msg = `${pct}% de acerto! Algumas pegadinhas passaram, mas ainda temos muitas histórias para colecionar juntos.`;
+    } else {
+      headline = "Hora de mais conversa e cafuné ☕";
+      msg = `${pct}% de acerto. Sem problemas: vamos ter que passar mais tempo juntos para você me conhecer melhor!`;
+    }
+    $("result-headline").textContent = headline;
+    $("result-message").textContent = msg;
+
+    const sum = $("summary-container");
+    sum.innerHTML = "";
+    answers.forEach((a, n) => {
+      const d = document.createElement("div");
+      d.className = "summary-item";
+      const t = document.createElement("div");
+      t.className = "summary-item-q";
+      t.textContent = `${n + 1}. ${a.q}`;
+      const r = document.createElement("div");
+      r.className = "summary-item-ans";
+      const s1 = document.createElement("span");
+      s1.className = a.ok ? "correct" : "wrong";
+      s1.textContent = a.picked;
+      r.append("Sua resposta: ", s1);
+      if (!a.ok) {
+        const s2 = document.createElement("span");
+        s2.className = "correct";
+        s2.textContent = a.right;
+        r.append(document.createElement("br"), "Correta: ", s2);
       }
+      d.append(t, r);
+      sum.appendChild(d);
     });
 
-    // Exibe a caixa de feedback
-    feedbackBox.classList.add("show");
-    if (isCorrect) {
-      feedbackBox.classList.add("correct");
-      feedbackIcon.textContent = "🎉";
-      feedbackHeadline.textContent = "Você acertou em cheio!";
-    } else {
-      feedbackBox.classList.add("wrong");
-      feedbackIcon.textContent = "😅";
-      feedbackHeadline.textContent = `Ops! A resposta era: ${q.options[q.correctAnswer]}`;
-    }
-    feedbackComment.textContent = q.comment || "";
-
-    // Atualiza barra de progresso para a conclusão desta pergunta
-    const total = questions.length;
-    const progressPercent = ((currentQuestionIndex + 1) / total) * 100;
-    progressBar.style.width = `${progressPercent}%`;
-    scoreCounter.textContent = `Acertos: ${score}`;
-
-    // Exibe o botão de avançar
-    btnNext.style.display = "inline-flex";
-    btnNext.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    showScreen($("screen-result"));
+    setTimeout(() => confettiBurst(pct >= 41 ? 1 : 0.5), 500);
   }
 
-  /**
-   * Finaliza o Quiz e exibe resultado
-   */
-  function finishQuiz() {
-    quizHeader.style.display = "none";
-    const total = questions.length;
-    const percentage = total > 0 ? Math.round((score / total) * 100) : 0;
-
-    finalScore.textContent = `${score}/${total}`;
-
-    // Mensagens dinâmicas por faixa de acertos
-    if (percentage >= 80) {
-      resultHeadline.textContent = "Conexão de Alma Gêmea! ❤️";
-      resultMessage.innerHTML = `
-        <strong>Impressionante: ${percentage}% de acerto!</strong><br>
-        Você presta atenção em cada detalhe, lembra das nossas histórias e me conhece de olhos fechados. Sou a pessoa mais sortuda do mundo por ter você ao meu lado!
-      `;
-      triggerConfetti();
-    } else if (percentage >= 50) {
-      resultHeadline.textContent = "Muito bem, meu amor! 🥰";
-      resultMessage.innerHTML = `
-        <strong>Você acertou ${percentage}%!</strong><br>
-        Mandou super bem! Algumas pegadinhas passaram, mas isso só significa que temos ainda mais histórias, viagens e risadas para colecionar juntos. Te amo!
-      `;
-      triggerConfetti(0.5);
-    } else {
-      resultHeadline.textContent = "Hora de Mais Conversas e Cafuné! ☕";
-      resultMessage.innerHTML = `
-        <strong>Você acertou ${percentage}%.</strong><br>
-        Tudo bem, amor! A boa notícia é que vamos precisar de um encontro longo de fim de tarde para você me fazer todas as perguntas de novo. Meu coração ainda é 100% seu!
-      `;
-    }
-
-    renderSummary();
-    showScreen(screenResult);
-  }
-
-  /**
-   * Renderiza o resumo de todas as perguntas
-   */
-  function renderSummary() {
-    summaryContainer.innerHTML = "";
-    userAnswers.forEach((item, index) => {
-      const div = document.createElement("div");
-      div.className = "summary-item";
-      div.innerHTML = `
-        <div class="summary-item-q">${index + 1}. ${item.questionText}</div>
-        <div class="summary-item-ans">
-          Sua resposta: <span class="${item.isCorrect ? 'correct' : 'wrong'}">${item.selectedText}</span>
-          ${!item.isCorrect ? `<br>Correta: <span class="correct">${item.correctText}</span>` : ""}
-        </div>
-      `;
-      summaryContainer.appendChild(div);
-    });
-  }
-
-  /**
-   * Efeito de confetes comemorativos
-   */
-  function triggerConfetti(intensity = 1) {
+  function confettiBurst(k = 1) {
     if (typeof confetti !== "function") return;
-
-    const count = 200 * intensity;
-    const defaults = {
-      origin: { y: 0.7 },
-      colors: ["#D9383A", "#FAF8F5", "#141413", "#F59E0B", "#E0474C"]
-    };
-
-    function fire(particleRatio, opts) {
-      confetti({
-        ...defaults,
-        ...opts,
-        particleCount: Math.floor(count * particleRatio)
-      });
-    }
-
-    fire(0.25, { spread: 26, startVelocity: 55 });
-    fire(0.2, { spread: 60 });
-    fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
-    fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
-    fire(0.1, { spread: 120, startVelocity: 45 });
+    const base = { colors: COLORS, origin: { y: 0.7 } };
+    confetti({ ...base, particleCount: Math.floor(120 * k), spread: 70 });
+    confetti({ ...base, particleCount: Math.floor(80 * k), spread: 120, startVelocity: 25, scalar: 1.1 });
   }
 
-  // Event Listeners
-  btnStart.addEventListener("click", startQuiz);
+  function openPrize() {
+    $("prize-title").textContent = prize.title;
+    $("prize-message").textContent = prize.message;
+    $("prize-footer").textContent = prize.footer;
+    $("prize-modal").hidden = false;
+    confettiBurst(1.5);
+  }
 
-  btnNext.addEventListener("click", () => {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-      renderQuestion();
-    } else {
-      finishQuiz();
-    }
+  $("btn-start").addEventListener("click", startQuiz);
+  $("btn-next").addEventListener("click", () => {
+    current++;
+    current < questions.length ? renderQuestion() : finish();
   });
-
-  btnRestart.addEventListener("click", () => {
-    startQuiz();
-  });
-
-  btnToggleSummary.addEventListener("click", () => {
-    const isShowing = summaryContainer.classList.toggle("show");
-    btnToggleSummary.querySelector("span").textContent = isShowing ? "▲" : "▼";
+  $("btn-restart").addEventListener("click", startQuiz);
+  $("btn-letter").addEventListener("click", openPrize);
+  $("btn-close-prize").addEventListener("click", () => { $("prize-modal").hidden = true; });
+  $("prize-modal").addEventListener("click", (e) => { if (e.target.id === "prize-modal") $("prize-modal").hidden = true; });
+  $("btn-toggle-summary").addEventListener("click", (e) => {
+    const open = $("summary-container").classList.toggle("show");
+    e.currentTarget.textContent = open ? "Ocultar resumo ▲" : "Ver resumo das respostas ▼";
   });
 });

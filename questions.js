@@ -108,8 +108,45 @@ const questionsData = [
     ],
     correctAnswer: 3,
     comment: "Foi amor à primeira vista sim, e cada dia que passa eu tenho mais certeza. 💘"
+  },
+  {
+    id: 9,
+    question: "Qual é a música que mais me lembra a gente?",
+    options: [
+      "Uma balada romântica clássica",
+      "Aquela música que tocava no nosso primeiro rolê",
+      "Uma canção animada para cantar no carro",
+      "Qualquer uma, desde que você esteja cantando junto"
+    ],
+    correctAnswer: 3,
+    comment: "Troque as opções por músicas de verdade de vocês! 🎶"
+  },
+  {
+    id: 10,
+    question: "O que eu mais quero viver ao seu lado nos próximos anos?",
+    options: [
+      "Conquistar uma casa só nossa",
+      "Viajar o mundo juntos",
+      "Construir uma família linda",
+      "Tudo isso e muito mais, de mãos dadas"
+    ],
+    correctAnswer: 3,
+    comment: "Planos grandes, e você é a pessoa que quero ao meu lado em todos. 💍"
   }
 ];
 
+/**
+ * ========================================================
+ * PRÊMIO FINALISTA (carta aberta na tela final)
+ * ========================================================
+ * Edite o texto abaixo com a surpresa especial / vale-presente.
+ */
+const prizeData = {
+  title: "Vale Jantar Romântico 🍷",
+  message: "Parabéns, finalista! Este vale garante um jantar especial só nosso, no restaurante que você escolher. Eu cuido de tudo, você só precisa estar linda e sorrindo.",
+  footer: "Válido por: toda a vida ❤️"
+};
+
 // Exporta globalmente para uso direto na web
 window.quizQuestions = questionsData;
+window.prizeData = prizeData;

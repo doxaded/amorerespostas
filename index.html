@@ -3,129 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amor e Respostas — O Quiz Definitivo do Nosso Amor</title>
-  <meta name="description" content="Um quiz interativo com estética editorial para testar o quanto você me conhece e celebrar nossa história juntos.">
+  <title>Amor e Respostas — Um teste para provar o seu amor</title>
+  <meta name="description" content="Você conhece bem seu namorado? Responda o quiz e descubra se você é capaz de receber o prêmio finalista.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💌</text></svg>">
 
-  <!-- Favicon / Emoji -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%22100%22%20height=%22100%22><text y=%22.9em%22 font-size=%2290%22>💌</text></svg>">
-
-  <!-- Google Fonts: Fraunces (Serif Editorial) & Plus Jakarta Sans (Sans-serif moderno) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,800;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,600;1,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- Canvas Confetti CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
-
-  <!-- CSS Styles -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="app-container">
-    
-    <!-- Header com Progresso (visível durante o quiz) -->
-    <header id="quiz-header" class="quiz-header" style="display: none;">
-      <div class="brand-badge">
-        <span>❤️</span> Amor e Respostas
-      </div>
-      <div class="progress-info">
-        <span id="progress-text">Pergunta 01 de 08</span>
-        <span id="score-counter">Acertos: 0</span>
-      </div>
-      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <div id="progress-bar" class="progress-bar"></div>
-      </div>
-    </header>
 
-    <!-- 1. TELA INICIAL (HERO) -->
-    <section id="screen-hero" class="screen active">
-      <div class="quiz-card text-center">
-        <div class="brand-badge" style="margin-bottom: 24px;">
-          Edição Especial para Nós Dois
+  <!-- 1. HERO -->
+  <section id="screen-hero" class="screen hero active">
+    <div class="hero-content">
+      <p class="overline">Um teste para provar o seu amor</p>
+      <h1 class="hero-title">
+        Você conhece bem seu <em class="pink-light">namorado?</em>
+        Responda e veja se você é capaz de receber o <em class="pink-hot">prêmio finalista!</em>
+      </h1>
+      <p class="hero-caption">
+        Relembre nossos detalhes, gostos e histórias e descubra se a sua memória afetiva está afiada o suficiente para desbloquear a surpresa especial no final.
+      </p>
+      <button id="btn-start" class="btn-pill" type="button">Começar o desafio →</button>
+      <p class="time-estimate">≈ 3 min</p>
+    </div>
+
+    <!-- Coração rosa (canto inferior esquerdo). Substitua por assets/coracao_rosa.png se quiser. -->
+    <svg class="deco deco-heart" viewBox="0 0 776 698" aria-hidden="true">
+      <path d="M392 140 C360 80 330 40 240 25 C170 25 100 60 60 130 C25 190 25 250 50 310 C80 380 130 450 200 520 C270 590 340 650 392 674 C440 650 520 590 600 500 C680 410 740 340 752 260 C755 190 730 110 670 60 C620 25 560 15 500 30 C450 60 420 100 392 140 Z" fill="#FF8DA1"/>
+      <path d="M500 30 C560 15 620 25 670 60 C730 110 755 190 752 260 C740 340 680 410 600 500 C520 590 440 650 392 674 C440 600 500 540 560 410 C620 360 690 300 706 200 C700 130 680 100 650 90 C600 70 560 60 540 70 C500 80 450 110 420 130 C440 80 470 50 500 30 Z" fill="#E85C78"/>
+    </svg>
+
+    <!-- Carta com selo (canto inferior direito). Substitua por assets/carta_com_selo.png se quiser. -->
+    <svg class="deco deco-letter" viewBox="0 0 721 580" aria-hidden="true">
+      <rect x="28" y="60" width="640" height="440" rx="30" transform="rotate(-8 350 290)" fill="#B5B8B9"/>
+      <path d="M45 150 L260 310 L120 520 L80 500 Z" fill="#8E9193" opacity="0.7"/>
+      <path d="M620 50 L440 270 L670 410 L690 380 Z" fill="#8E9193" opacity="0.7"/>
+      <path d="M95 520 L270 320 L330 400 Z M670 400 L450 280 L400 370 Z" fill="#8E9193" opacity="0.55"/>
+      <polygon points="340,180 410,200 445,255 450,320 410,380 340,400 270,375 250,320 262,250 300,200" fill="#FF8DA1"/>
+      <path d="M355 365 C330 345 300 320 300 295 C300 270 335 260 355 285 C375 260 410 270 408 300 C405 330 375 350 355 365 Z" fill="#E84A72"/>
+    </svg>
+  </section>
+
+  <!-- 2. QUIZ -->
+  <section id="screen-quiz" class="screen quiz">
+    <div class="quiz-wrap">
+      <header class="quiz-header">
+        <div class="progress-info">
+          <span id="progress-text">PERGUNTA 01 / 10</span>
+          <span id="score-counter">ACERTOS: 0</span>
         </div>
-        <h1 class="editorial-title">
-          Amor e <span>Respostas</span>
-        </h1>
-        <p class="editorial-subtitle">
-          O quanto você realmente me conhece? Prepare-se para o teste definitivo com lembranças, segredos e boas risadas.
-        </p>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+      </header>
 
-        <button id="btn-start" class="btn btn-primary btn-block" type="button">
-          Começar o Quiz <span>&rarr;</span>
-        </button>
+      <h2 id="question-title" class="question-text">Carregando...</h2>
+      <div id="options-container" class="options-list"></div>
+
+      <div id="feedback-box" class="feedback-box">
+        <div id="feedback-icon" class="feedback-icon">✨</div>
+        <div>
+          <div id="feedback-headline" class="feedback-headline"></div>
+          <div id="feedback-comment" class="feedback-comment"></div>
+        </div>
       </div>
 
-      <div class="quiz-card" style="padding: 20px; font-size: 0.9rem; color: var(--color-text-muted);">
-        <strong>💡 Como funciona:</strong> Responda uma pergunta por vez com atenção! A cada escolha você verá um comentário especial sobre o nosso relacionamento.
-      </div>
-    </section>
+      <button id="btn-next" class="btn-pill" type="button" hidden>Próxima pergunta →</button>
+    </div>
+  </section>
 
-    <!-- 2. TELA DE PERGUNTAS (DINÂMICA) -->
-    <section id="screen-quiz" class="screen">
-      <div class="quiz-card">
-        <h2 id="question-title" class="question-text">
-          Carregando pergunta...
-        </h2>
+  <!-- 3. RESULTADO -->
+  <section id="screen-result" class="screen result">
+    <div class="quiz-wrap result-wrap">
+      <p class="overline">Resultado final</p>
+      <div id="final-score" class="score-badge">0/0</div>
+      <h2 id="result-headline" class="result-title">Resultado</h2>
+      <p id="result-message" class="hero-caption"></p>
 
-        <!-- Lista de 4 Alternativas -->
-        <div id="options-container" class="options-list">
-          <!-- Gerado dinamicamente via JS -->
-        </div>
+      <button id="btn-letter" class="letter-card" type="button" aria-label="Abrir o prêmio finalista">
+        <svg viewBox="0 0 721 580" aria-hidden="true">
+          <rect x="28" y="60" width="640" height="440" rx="30" transform="rotate(-8 350 290)" fill="#B5B8B9"/>
+          <path d="M45 150 L260 310 L120 520 L80 500 Z" fill="#8E9193" opacity="0.7"/>
+          <path d="M620 50 L440 270 L670 410 L690 380 Z" fill="#8E9193" opacity="0.7"/>
+          <polygon points="340,180 410,200 445,255 450,320 410,380 340,400 270,375 250,320 262,250 300,200" fill="#FF8DA1"/>
+          <path d="M355 365 C330 345 300 320 300 295 C300 270 335 260 355 285 C375 260 410 270 408 300 C405 330 375 350 355 365 Z" fill="#E84A72"/>
+        </svg>
+        <span class="letter-label">Abrir o prêmio finalista</span>
+      </button>
 
-        <!-- Caixa de Feedback após responder -->
-        <div id="feedback-box" class="feedback-box">
-          <div id="feedback-icon" class="feedback-icon">✨</div>
-          <div class="feedback-content">
-            <div id="feedback-headline" class="feedback-headline">Resposta certa!</div>
-            <div id="feedback-comment" class="feedback-comment">Comentário divertido...</div>
-          </div>
-        </div>
+      <button id="btn-toggle-summary" class="link-btn" type="button">Ver resumo das respostas ▼</button>
+      <div id="summary-container" class="summary-details"></div>
 
-        <!-- Botão Próxima Pergunta -->
-        <button id="btn-next" class="btn btn-primary btn-block" style="display: none;" type="button">
-          Próxima Pergunta <span>&rarr;</span>
-        </button>
-      </div>
-    </section>
+      <button id="btn-restart" class="btn-pill btn-outline" type="button">Jogar novamente ↺</button>
+    </div>
+  </section>
 
-    <!-- 3. TELA DE RESULTADO FINAL -->
-    <section id="screen-result" class="screen">
-      <div class="quiz-card text-center" style="text-align: center;">
-        <div class="brand-badge">
-          Quiz Finalizado
-        </div>
+  <!-- MODAL DO PRÊMIO -->
+  <div id="prize-modal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="prize-title">
+      <p class="overline">Prêmio finalista</p>
+      <h3 id="prize-title" class="prize-title"></h3>
+      <p id="prize-message" class="prize-message"></p>
+      <p id="prize-footer" class="time-estimate"></p>
+      <button id="btn-close-prize" class="btn-pill" type="button">Fechar ♥</button>
+    </div>
+  </div>
 
-        <div id="final-score" class="score-badge">
-          0/0
-        </div>
-        <h2 id="result-headline" class="editorial-title" style="font-size: 2rem; margin-bottom: 8px;">
-          Você me conhece tão bem!
-        </h2>
-        
-        <div id="result-message" class="result-message-box">
-          Carregando resultado...
-        </div>
-
-        <!-- Detalhes / Resumo das Respostas -->
-        <button id="btn-toggle-summary" class="summary-toggle-btn" type="button">
-          Ver resumo de todas as respostas <span>▼</span>
-        </button>
-        <div id="summary-container" class="summary-details">
-          <!-- Preenchido via JS -->
-        </div>
-
-        <button id="btn-restart" class="btn btn-primary btn-block" type="button">
-          Jogar Novamente <span>↺</span>
-        </button>
-      </div>
-    </section>
-
-    <footer class="footer-note">
-      Feito com ❤️ para o amor da minha vida.
-    </footer>
-  </main>
-
-  <!-- Dados das Perguntas e Lógica da Aplicação -->
   <script src="questions.js"></script>
   <script src="app.js"></script>
 </body>
