@@ -4,7 +4,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const questions = window.quizQuestions || [];
   const prize = window.prizeData || { title: "Surpresa!", message: "", footer: "" };
-  const letters = ["A", "B", "C", "D"];
+  const letters = ["A", "B", "C", "D", "E"];
   const COLORS = ["#FF8DA1", "#E84A72", "#141413", "#F4F1EA"];
 
   let current = 0;

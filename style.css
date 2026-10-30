@@ -140,15 +140,15 @@ body {
   line-height: 1.15;
   margin-bottom: 28px;
 }
-.options-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px; }
+.options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .option-btn {
   display: flex; gap: 14px; align-items: flex-start;
   text-align: left; width: 100%;
   background: #fff;
   border: 1.5px solid var(--ink);
   border-radius: 14px;
-  padding: 16px 18px;
-  font-family: var(--font-sans); font-size: 1rem; font-weight: 600;
+  padding: 13px 16px;
+  font-family: var(--font-sans); font-size: .96rem; font-weight: 600; line-height: 1.35;
   color: var(--ink); cursor: pointer;
   transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
   animation: slideIn .4s ease both;
@@ -156,6 +156,7 @@ body {
 .option-btn:nth-child(2) { animation-delay: .05s; }
 .option-btn:nth-child(3) { animation-delay: .1s; }
 .option-btn:nth-child(4) { animation-delay: .15s; }
+.option-btn:nth-child(5) { animation-delay: .2s; }
 .option-btn:hover:not(:disabled) { transform: translateY(-2px); border-color: var(--pink-hot); box-shadow: 0 6px 0 var(--pink-light); }
 .option-letter {
   font-family: var(--font-mono); font-weight: 700; font-size: .8rem;
@@ -218,4 +219,7 @@ body {
   .hero { padding-bottom: 130px; }
   .overline { letter-spacing: .15em; font-size: .68rem; }
   .hero-caption { font-size: .95rem; }
+  .quiz, .result { padding-top: 20px; align-items: flex-start; }
+  .progress-track { margin-bottom: 24px; }
+  .option-btn { padding: 11px 14px; font-size: .92rem; gap: 12px; }
 }

@@ -7,131 +7,221 @@
  * Cada pergunta possui:
  * - id: Identificador numérico único
  * - question: O texto da pergunta
- * - options: Lista com 4 opções de resposta
- * - correctAnswer: O índice (0, 1, 2 ou 3) da resposta correta
+ * - options: Lista com 5 opções de resposta (1 correta + 4 incorretas)
+ * - correctAnswer: O índice (0 a 4) da resposta correta
  * - comment: Comentário, curiosidade ou piada interna exibida após responder
  */
 
 const questionsData = [
   {
     id: 1,
-    question: "Onde foi o nosso primeiro encontro oficial?",
-    options: [
-      "Num café charmoso no fim de tarde",
-      "No cinema dividindo um balde de pipoca",
-      "Em um restaurante japonês comendo sushi",
-      "Num parque caminhando e conversando por horas"
-    ],
-    correctAnswer: 0,
-    comment: "Aquele café onde o tempo simplesmente voou e a gente não queria ir embora! ❤️"
+    question: "Qual é a minha data de nascimento completa (dia, mês e ano)?",
+    options: ["14/01/2007", "16/01/2007", "16/01/2006", "18/02/2007", "06/01/2007"],
+    correctAnswer: 1,
+    comment: "16 de janeiro de 2007! O dia em que o mundo ficou mais bonito."
   },
   {
     id: 2,
-    question: "Qual é a minha comida favorita no mundo inteiro?",
-    options: [
-      "Hambúrguer artesanal bem suculento",
-      "Uma boa pizza com massa fina",
-      "Churrasco de domingo",
-      "Massa caseira com bastante queijo"
-    ],
-    correctAnswer: 1,
-    comment: "Você sabe que pizza sempre ganha meu coração (depois de você, claro). 🍕"
+    question: "Qual é o meu nome completo sem errar nenhuma letra?",
+    options: ["Henrique Vigueira Berbert", "Henrique Viguera Bebert", "Henrique Viguera Berbert", "Henrique Figueira Berbert", "Henrique Viguera Berberth"],
+    correctAnswer: 2,
+    comment: "Henrique Viguera Berbert! Sem 'i' a mais no Viguera e com os dois 'r' no Berbert."
   },
   {
     id: 3,
-    question: "Qual é a minha maior 'mania' ou hábito engraçado?",
-    options: [
-      "Organizar as coisas por ordem de cor/tamanho",
-      "Checar mil vezes se a porta está trancada",
-      "Fazer piadinhas em momentos de silêncio",
-      "Cantarolando músicas aleatórias no banho"
-    ],
-    correctAnswer: 2,
-    comment: "Eu não resisto a quebrar o silêncio com uma piadinha boba! 😂"
+    question: "Se eu pudesse comer apenas um prato pelo resto da vida, qual seria?",
+    options: ["Lasanha à bolonhesa", "Churrasco com farofa", "Hambúrguer artesanal", "Estrogonofe", "Parmegiana de carne"],
+    correctAnswer: 3,
+    comment: "Um bom estrogonofe não tem erro, comeria todo dia fácil!"
   },
   {
     id: 4,
-    question: "Qual é a viagem dos meus sonhos para fazermos juntos?",
-    options: [
-      "Ver a aurora boreal na Noruega/Finlândia",
-      "Explorar a cultura e gastronomia do Japão",
-      "Uma cabana isolada e aconchegante nas montanhas",
-      "Relaxar em uma praia paradisíaca no Caribe"
-    ],
-    correctAnswer: 1,
-    comment: "Nosso roteiro dos sonhos juntos! Mal posso esperar para carimbar esse passaporte com você. ✈️"
+    question: "Qual é a minha sobremesa ou doce favorito absoluto?",
+    options: ["Pudim de leite condensado", "Brigadeiro de colher", "Torta de limão", "Mousse de maracujá", "Pavê"],
+    correctAnswer: 4,
+    comment: "É pavê E pra comer sim! Meu doce favorito disparado."
   },
   {
     id: 5,
-    question: "O que eu mais admiro em você?",
-    options: [
-      "Sua determinação e inteligência brilhante",
-      "Seu sorriso que ilumina qualquer dia difícil",
-      "A doçura e carinho com que você me trata",
-      "Absolutamente tudo acima e muito mais"
-    ],
-    correctAnswer: 3,
-    comment: "Essa nem precisava de dúvida: o pacote completo é o que me conquista todo santo dia! ✨"
+    question: "Qual comida ou ingrediente eu NÃO suporto de jeito nenhum?",
+    options: ["Pepino", "Cebola", "Coentro", "Azeitona", "Pimentão"],
+    correctAnswer: 0,
+    comment: "Pepino passa longe do meu prato!"
   },
   {
     id: 6,
-    question: "Se a gente pudesse passar um domingo perfeito, como seria?",
-    options: [
-      "Dormir até tarde, maratonar série e pedir comida",
-      "Acordar cedo para pedalar e passear na feira",
-      "Cozinhar algo especial ouvindo música juntos",
-      "Sair sem destino explorando cafés e livrarias"
-    ],
-    correctAnswer: 0,
-    comment: "Nosso modo 'preguiça & dengo' ativado no domingo é simplesmente insubstituível. 🛋️"
+    question: "Qual é a minha bebida favorita?",
+    options: ["Coca-Cola trincando de gelada", "Suco de maracujá", "Suco de laranja", "Guaraná Antarctica", "Água com gás e limão"],
+    correctAnswer: 2,
+    comment: "Um suquinho de laranja gelado é imbatível."
   },
   {
     id: 7,
-    question: "Qual é a minha linguagem do amor predominante com você?",
-    options: [
-      "Tempo de qualidade (estar presente junto)",
-      "Toque físico (abraços, cafuné e mãos dadas)",
-      "Palavras de afirmação e elogios",
-      "Atos de serviço e cuidado no dia a dia"
-    ],
-    correctAnswer: 1,
-    comment: "Especialista número 1 em pedir e fazer cafuné a qualquer hora do dia! 💆‍♂️"
+    question: "Qual é o jogo em que eu mais tenho horas jogadas ou que mais jogo atualmente?",
+    options: ["Minecraft", "Valorant", "CS2", "GTA V", "Red Dead Redemption 2"],
+    correctAnswer: 2,
+    comment: "Counter-Strike 2 na veia!"
   },
   {
     id: 8,
-    question: "O que eu pensei na primeiríssima vez em que te vi?",
-    options: [
-      "\"Caramba, ela é incrivelmente linda e estilosa!\"",
-      "\"Preciso arrumar uma desculpa para falar com ela agora.\"",
-      "\"Senti uma conexão e paz imediata só de olhar.\"",
-      "Todas as alternativas anteriores simultaneamente!"
-    ],
+    question: "No CS, qual é o meu mapa favorito?",
+    options: ["Mirage", "Inferno", "Dust II", "Nuke", "Overpass"],
     correctAnswer: 3,
-    comment: "Foi amor à primeira vista sim, e cada dia que passa eu tenho mais certeza. 💘"
+    comment: "Nuke! Só para quem tem noção de jogo afiada."
   },
   {
     id: 9,
-    question: "Qual é a música que mais me lembra a gente?",
-    options: [
-      "Uma balada romântica clássica",
-      "Aquela música que tocava no nosso primeiro rolê",
-      "Uma canção animada para cantar no carro",
-      "Qualquer uma, desde que você esteja cantando junto"
-    ],
-    correctAnswer: 3,
-    comment: "Troque as opções por músicas de verdade de vocês! 🎶"
+    question: "Qual é o meu anime ou mangá favorito de todos os tempos?",
+    options: ["Hunter x Hunter", "Dragon Ball Z", "Attack on Titan", "One Piece", "Naruto"],
+    correctAnswer: 4,
+    comment: "Naruto é clássico absoluto no meu coração!"
   },
   {
     id: 10,
-    question: "O que eu mais quero viver ao seu lado nos próximos anos?",
-    options: [
-      "Conquistar uma casa só nossa",
-      "Viajar o mundo juntos",
-      "Construir uma família linda",
-      "Tudo isso e muito mais, de mãos dadas"
-    ],
+    question: "Qual é o meu personagem favorito dos animes/jogos?",
+    options: ["Itachi Uchiha", "Killua Zoldyck", "Kakashi Hatake", "Não tenho um favorito específico", "Arthur Morgan"],
     correctAnswer: 3,
-    comment: "Planos grandes, e você é a pessoa que quero ao meu lado em todos. 💍"
+    comment: "Pegadinha! Eu curto vários, mas não tenho um único favorito absoluto."
+  },
+  {
+    id: 11,
+    question: "Quando jogamos ou falamos de RPG de mesa, qual é a minha classe favorita?",
+    options: ["Mago", "Guerreiro", "Arqueiro", "Ladino", "Paladino"],
+    correctAnswer: 2,
+    comment: "Arqueiro sempre! Mira precisa de longe."
+  },
+  {
+    id: 12,
+    question: "Qual é o meu jogador de futebol favorito da história?",
+    options: ["Cristiano Ronaldo", "Ronaldo Fenômeno", "Pelé", "Neymar", "Messi"],
+    correctAnswer: 4,
+    comment: "Lionel Messi, o gênio da bola!"
+  },
+  {
+    id: 13,
+    question: "Qual time europeu eu defendo?",
+    options: ["Real Madrid", "Barcelona", "Milan", "Manchester United", "Bayern de Munique"],
+    correctAnswer: 2,
+    comment: "Forza Milan! Rossonero de respeito."
+  },
+  {
+    id: 14,
+    question: "Qual banda ou artista eu mais escuto?",
+    options: ["Arctic Monkeys", "Red Hot Chili Peppers", "Linkin Park", "Nirvana", "Charlie Brown Jr."],
+    correctAnswer: 1,
+    comment: "Red Hot Chili Peppers na playlist não pode faltar!"
+  },
+  {
+    id: 15,
+    question: "Qual é o meu exercício favorito no treino?",
+    options: ["Supino reto com halteres", "Tríceps na polia", "Barra fixa", "Agachamento na Barra Smith", "Rosca direta"],
+    correctAnswer: 3,
+    comment: "Agachamento na Barra Smith! Aqui não se pula treino de perna."
+  },
+  {
+    id: 16,
+    question: "Qual grupo muscular eu menos gosto de fazer (mas faço mesmo assim)?",
+    options: ["Ombros", "Panturrilha", "Abdômen", "Costas", "Bíceps"],
+    correctAnswer: 0,
+    comment: "Treinar ombros queima demais, mas faz parte do processo!"
+  },
+  {
+    id: 17,
+    question: "Qual é a minha maior mania no dia a dia que você sempre repara?",
+    options: ["Estalar os dedos toda hora", "Mexer no cabelo sem parar", "Bater o pé no chão", "Mexer na pele", "Roer as unhas"],
+    correctAnswer: 3,
+    comment: "Quando eu vejo, já estou mexendo na pele de novo!"
+  },
+  {
+    id: 18,
+    question: "O que me deixa de mau humor quase instantaneamente?",
+    options: ["Acordar atrasado", "Muito barulho", "Internet caindo no meio da partida", "Comida fria", "Trânsito parado"],
+    correctAnswer: 1,
+    comment: "Barulheira na minha cabeça acaba com a minha paz na hora!"
+  },
+  {
+    id: 19,
+    question: "Em qual período do dia eu funciono melhor?",
+    options: ["De madrugada", "Depois do almoço", "No fim da tarde", "Manhã cedo", "Só depois das 22h"],
+    correctAnswer: 3,
+    comment: "De manhã cedo! Produtividade lá no alto logo cedo."
+  },
+  {
+    id: 20,
+    question: "Qual é o meu filme favorito?",
+    options: ["Clube da Luta", "Interestelar", "O Lobo de Wall Street", "O Poderoso Chefão", "Bastardos Inglórios"],
+    correctAnswer: 2,
+    comment: "O Lobo de Wall Street! Filme absurdo de bom."
+  },
+  {
+    id: 21,
+    question: "Qual é o meu jogo favorito?",
+    options: ["The Last of Us", "The Witcher 3", "Life is Strange", "The Wolf Among Us", "God of War"],
+    correctAnswer: 3,
+    comment: "The Wolf Among Us! História e atmosfera incríveis."
+  },
+  {
+    id: 22,
+    question: "Onde foi o nosso primeiro beijo?",
+    options: ["Praia de Itacoatiara", "Praia de Icaraí", "Praia de Piratininga", "Campo de São Bento", "Praça Arariboia"],
+    correctAnswer: 2,
+    comment: "Na Praia de Piratininga! Onde tudo começou de verdade."
+  },
+  {
+    id: 23,
+    question: "Qual é a data exata em que começamos a namorar?",
+    options: ["01/01/2025", "02/01/2025", "12/01/2025", "02/02/2025", "25/12/2024"],
+    correctAnswer: 1,
+    comment: "02 de janeiro de 2025! Começando o ano da melhor forma possível."
+  },
+  {
+    id: 24,
+    question: "Qual foi a primeira impressão sincera que eu tive de você quando te conheci?",
+    options: ["Muito tímida", "Super simpática", "Chata", "Metida", "Muito quieta"],
+    correctAnswer: 2,
+    comment: "Achei chata no começo... e olha só onde a gente veio parar!"
+  },
+  {
+    id: 25,
+    question: "Qual é o nosso programa favorito de fim de semana?",
+    options: ["Ir ao shopping ver filme", "Ir na Praça XV", "Ficar em casa vendo série o dia todo", "Sair para jantar em restaurante chique", "Dar volta no centro de Niterói"],
+    correctAnswer: 1,
+    comment: "Dar aquele rolê clássico na Praça XV!"
+  },
+  {
+    id: 26,
+    question: "Qual apelido carinhoso (ou piada interna) é a nossa marca registrada?",
+    options: ["Mozão e Vida", "Princesa e Príncipe", "Bê e Amor", "Cocuda e Cocudo", "Chatinha e Chatinho"],
+    correctAnswer: 3,
+    comment: "Cocuda e Cocudo! O romantismo diferenciado que só a gente entende."
+  },
+  {
+    id: 27,
+    question: "Qual é a coisa que você faz que me deixa completamente bobo/apaixonado?",
+    options: ["Quando você se arruma para sair", "Quando você faz carinho no meu rosto", "Quando você sorri", "Quando você me manda mensagem do nada", "Quando você fica brava de mentirinha"],
+    correctAnswer: 2,
+    comment: "O seu sorriso me desmonta inteiro toda vez!"
+  },
+  {
+    id: 28,
+    question: "Qual é o lugar do mundo que eu mais tenho vontade de te levar comigo para conhecer?",
+    options: ["Japão", "Suíça", "Estados Unidos", "China", "Egito"],
+    correctAnswer: 3,
+    comment: "China! Ainda vamos fazer essa viagem épica juntos."
+  },
+  {
+    id: 29,
+    question: "Qual é o meu maior sonho ou meta para os nossos próximos anos juntos?",
+    options: ["Comprar um carro esportivo", "Ter um apartamento nosso", "Adotar três cachorros", "Morar na praia", "Viajar de motorhome"],
+    correctAnswer: 1,
+    comment: "Ter o nosso próprio apartamento, o nosso cantinho!"
+  },
+  {
+    id: 30,
+    question: "Qual é o lugar do mundo que eu mais tenho vontade de conhecer com você?",
+    options: ["Paris", "Veneza", "Roma", "Londres", "Madri"],
+    correctAnswer: 2,
+    comment: "Roma! Muita história, massa boa e nós dois na Itália."
   }
 ];
 
@@ -147,6 +237,6 @@ const prizeData = {
   footer: "Válido por: toda a vida ❤️"
 };
 
-// Exporta globalmente para uso direto na web
+// Exporta globalmente para uso direto na web (script clássico, sem módulos)
 window.quizQuestions = questionsData;
 window.prizeData = prizeData;
