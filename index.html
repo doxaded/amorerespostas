@@ -80,38 +80,29 @@
   <section id="screen-result" class="screen result">
     <div class="quiz-wrap result-wrap">
       <p class="overline">Resultado final</p>
-      <div id="final-score" class="score-badge">0/0</div>
-      <h2 id="result-headline" class="result-title">Resultado</h2>
-      <p id="result-message" class="hero-caption"></p>
+      <p id="result-count" class="result-count">Você acertou 0 de 30 perguntas</p>
+      <div id="final-score" class="score-badge">0% de acerto</div>
 
-      <button id="btn-letter" class="letter-card" type="button" aria-label="Abrir o prêmio finalista">
-        <svg viewBox="0 0 721 580" aria-hidden="true">
-          <rect x="28" y="60" width="640" height="440" rx="30" transform="rotate(-8 350 290)" fill="#B5B8B9"/>
-          <path d="M45 150 L260 310 L120 520 L80 500 Z" fill="#8E9193" opacity="0.7"/>
-          <path d="M620 50 L440 270 L670 410 L690 380 Z" fill="#8E9193" opacity="0.7"/>
-          <polygon points="340,180 410,200 445,255 450,320 410,380 340,400 270,375 250,320 262,250 300,200" fill="#FF8DA1"/>
-          <path d="M355 365 C330 345 300 320 300 295 C300 270 335 260 355 285 C375 260 410 270 408 300 C405 330 375 350 355 365 Z" fill="#E84A72"/>
+      <!-- Prêmio (somente com 75% ou mais) -->
+      <div id="prize-card" class="prize-card" hidden>
+        <svg class="prize-seal" viewBox="0 0 200 200" aria-hidden="true">
+          <polygon points="100,10 128,22 156,20 170,46 190,68 184,98 190,128 168,148 156,178 126,178 100,192 74,178 44,178 32,148 10,128 16,98 10,68 30,46 44,20 72,22" fill="#FF8DA1"/>
+          <path d="M100 140 C70 118 50 100 50 78 C50 56 84 48 100 72 C116 48 150 56 150 78 C150 100 130 118 100 140 Z" fill="#E84A72"/>
         </svg>
-        <span class="letter-label">Abrir o prêmio finalista</span>
-      </button>
+        <p class="overline prize-overline">Prêmio finalista desbloqueado</p>
+        <h2 class="prize-headline">VOCÊ GANHOU UM VALE 30 REAIS DO HENRIQUE POR ACERTAR!</h2>
+        <p class="prize-sub">Tire um print desta tela para resgatar o seu prêmio oficial com o seu namorado!</p>
+      </div>
 
-      <button id="btn-toggle-summary" class="link-btn" type="button">Ver resumo das respostas ▼</button>
+      <!-- Mensagem para menos de 75% -->
+      <p id="retry-message" class="retry-message" hidden></p>
+
+      <button id="btn-toggle-summary" class="btn-pill btn-outline" type="button">Ver Gabarito Completo (Acertos e Erros) ▼</button>
       <div id="summary-container" class="summary-details"></div>
 
-      <button id="btn-restart" class="btn-pill btn-outline" type="button">Jogar novamente ↺</button>
+      <button id="btn-restart" class="btn-pill" type="button">Tentar Novamente ↺</button>
     </div>
   </section>
-
-  <!-- MODAL DO PRÊMIO -->
-  <div id="prize-modal" class="modal" hidden>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="prize-title">
-      <p class="overline">Prêmio finalista</p>
-      <h3 id="prize-title" class="prize-title"></h3>
-      <p id="prize-message" class="prize-message"></p>
-      <p id="prize-footer" class="time-estimate"></p>
-      <button id="btn-close-prize" class="btn-pill" type="button">Fechar ♥</button>
-    </div>
-  </div>
 
   <script src="questions.js"></script>
   <script src="app.js"></script>

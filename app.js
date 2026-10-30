@@ -96,33 +96,38 @@ document.addEventListener("DOMContentLoaded", () => {
     next.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
+  const PASS_PCT = 75;
+
   function finish() {
     const total = questions.length;
     const pct = total ? Math.round((score / total) * 100) : 0;
-    $("final-score").textContent = `${score}/${total}`;
+    const won = pct >= PASS_PCT;
 
-    let headline, msg;
-    if (pct >= 81) {
-      headline = "Conexão de alma gêmea ❤️";
-      msg = `${pct}% de acerto! Você me conhece de olhos fechados. Sou o cara mais sortudo do mundo por ter você.`;
-    } else if (pct >= 41) {
-      headline = "Muito bem, meu amor 🥰";
-      msg = `${pct}% de acerto! Algumas pegadinhas passaram, mas ainda temos muitas histórias para colecionar juntos.`;
-    } else {
-      headline = "Hora de mais conversa e cafuné ☕";
-      msg = `${pct}% de acerto. Sem problemas: vamos ter que passar mais tempo juntos para você me conhecer melhor!`;
+    $("result-count").textContent = `Você acertou ${score} de ${total} perguntas`;
+    $("final-score").textContent = `${pct}% de acerto`;
+    $("prize-card").hidden = !won;
+    $("retry-message").hidden = won;
+    if (!won) {
+      $("retry-message").textContent = `Quase lá! Você fez ${pct}%, mas precisava de pelo menos ${PASS_PCT}% para desbloquear o prêmio finalista. Que tal tentar mais uma vez?`;
     }
-    $("result-headline").textContent = headline;
-    $("result-message").textContent = msg;
+    $("btn-restart").textContent = won ? "Jogar novamente ↺" : "Tentar Novamente ↺";
 
     const sum = $("summary-container");
     sum.innerHTML = "";
+    sum.classList.remove("show");
+    $("btn-toggle-summary").textContent = "Ver Gabarito Completo (Acertos e Erros) ▼";
     answers.forEach((a, n) => {
       const d = document.createElement("div");
       d.className = "summary-item";
+      const head = document.createElement("div");
+      head.className = "summary-item-head";
       const t = document.createElement("div");
       t.className = "summary-item-q";
-      t.textContent = `${n + 1}. ${a.q}`;
+      t.textContent = `${pad(n + 1)}. ${a.q}`;
+      const badge = document.createElement("span");
+      badge.className = `badge ${a.ok ? "badge-ok" : "badge-err"}`;
+      badge.textContent = a.ok ? "Acertou ✓" : "Errou ✗";
+      head.append(t, badge);
       const r = document.createElement("div");
       r.className = "summary-item-ans";
       const s1 = document.createElement("span");
@@ -133,14 +138,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const s2 = document.createElement("span");
         s2.className = "correct";
         s2.textContent = a.right;
-        r.append(document.createElement("br"), "Correta: ", s2);
+        r.append(document.createElement("br"), "Resposta correta: ", s2);
       }
-      d.append(t, r);
+      d.append(head, r);
       sum.appendChild(d);
     });
 
     showScreen($("screen-result"));
-    setTimeout(() => confettiBurst(pct >= 41 ? 1 : 0.5), 500);
+    if (won) setTimeout(() => confettiBurst(1.5), 500);
   }
 
   function confettiBurst(k = 1) {
@@ -150,13 +155,6 @@ document.addEventListener("DOMContentLoaded", () => {
     confetti({ ...base, particleCount: Math.floor(80 * k), spread: 120, startVelocity: 25, scalar: 1.1 });
   }
 
-  function openPrize() {
-    $("prize-title").textContent = prize.title;
-    $("prize-message").textContent = prize.message;
-    $("prize-footer").textContent = prize.footer;
-    $("prize-modal").hidden = false;
-    confettiBurst(1.5);
-  }
 
   $("btn-start").addEventListener("click", startQuiz);
   $("btn-next").addEventListener("click", () => {
@@ -164,11 +162,8 @@ document.addEventListener("DOMContentLoaded", () => {
     current < questions.length ? renderQuestion() : finish();
   });
   $("btn-restart").addEventListener("click", startQuiz);
-  $("btn-letter").addEventListener("click", openPrize);
-  $("btn-close-prize").addEventListener("click", () => { $("prize-modal").hidden = true; });
-  $("prize-modal").addEventListener("click", (e) => { if (e.target.id === "prize-modal") $("prize-modal").hidden = true; });
   $("btn-toggle-summary").addEventListener("click", (e) => {
     const open = $("summary-container").classList.toggle("show");
-    e.currentTarget.textContent = open ? "Ocultar resumo ▲" : "Ver resumo das respostas ▼";
+    e.currentTarget.textContent = open ? "Ocultar Gabarito ▲" : "Ver Gabarito Completo (Acertos e Erros) ▼";
   });
 });

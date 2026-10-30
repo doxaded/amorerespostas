@@ -223,3 +223,37 @@ body {
   .progress-track { margin-bottom: 24px; }
   .option-btn { padding: 11px 14px; font-size: .92rem; gap: 12px; }
 }
+
+/* Resultado: contagem, prêmio e gabarito */
+.result-count { font-weight: 800; font-size: clamp(1.2rem, 3.6vw, 1.7rem); letter-spacing: -0.03em; margin-bottom: 4px; }
+.score-badge { font-size: clamp(2.6rem, 10vw, 4.6rem); margin-bottom: 20px; }
+
+.prize-card {
+  position: relative; width: 100%;
+  background: #fff;
+  border: 3px solid var(--pink-hot);
+  border-radius: 20px;
+  padding: 44px 24px 28px;
+  margin: 18px 0 24px;
+  box-shadow: 8px 8px 0 var(--pink-light);
+  animation: slideIn .5s ease both;
+}
+.prize-card::before, .prize-card::after {
+  content: ""; position: absolute; top: 50%; width: 22px; height: 22px;
+  background: var(--bg); border: 3px solid var(--pink-hot); border-radius: 50%;
+}
+.prize-card::before { left: -13px; transform: translateY(-50%); }
+.prize-card::after { right: -13px; transform: translateY(-50%); }
+.prize-seal { position: absolute; top: -34px; left: 50%; width: 68px; translate: -50% 0; }
+.prize-overline { color: var(--pink-hot); margin-bottom: 12px; }
+.prize-headline { font-weight: 900; font-size: clamp(1.4rem, 4.6vw, 2.1rem); letter-spacing: -0.03em; line-height: 1.12; color: var(--pink-hot); margin-bottom: 14px; }
+.prize-sub { font-size: .98rem; color: var(--gray-mid); line-height: 1.5; border-top: 2px dashed var(--pink-light); padding-top: 14px; }
+
+.retry-message { max-width: 520px; color: var(--gray-mid); font-size: 1.05rem; line-height: 1.55; margin: 8px 0 24px; }
+
+.result-wrap .btn-outline { margin: 0 0 16px; }
+.summary-item-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
+.badge { flex-shrink: 0; font-family: var(--font-mono); font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 3px 10px; border-radius: 9999px; white-space: nowrap; }
+.badge-ok { background: var(--ok-bg); color: var(--ok); border: 1px solid var(--ok); }
+.badge-err { background: #FDE3E9; color: var(--pink-hot); border: 1px solid var(--pink-hot); }
+.result-wrap .summary-details { margin-bottom: 20px; }

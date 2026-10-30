@@ -184,9 +184,9 @@ const questionsData = [
   {
     id: 25,
     question: "Qual é o nosso programa favorito de fim de semana?",
-    options: ["Ir ao shopping ver filme", "Ir na Praça XV", "Ficar em casa vendo série o dia todo", "Sair para jantar em restaurante chique", "Dar volta no centro de Niterói"],
-    correctAnswer: 1,
-    comment: "Dar aquele rolê clássico na Praça XV!"
+    options: ["Ir ao shopping ver filme", "Ir na Praça XV", "Curtir em casa e pedir lanche", "Sair para jantar em restaurante chique", "Dar volta no centro de Niterói"],
+    correctAnswer: 2,
+    comment: "Ficar de boa em casa pedindo um lanche gostoso não tem preço!"
   },
   {
     id: 26,
